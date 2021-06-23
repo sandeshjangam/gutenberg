@@ -32,6 +32,8 @@
 
 .wp-block-column {
 	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
 
 	@media (max-width: #{ ($break-small - 1) }) {
 		// Responsiveness: Show at most one columns on mobile. This must be
@@ -92,15 +94,15 @@
 	* Individual Column Alignment
 	*/
 	&.is-vertically-aligned-top {
-		align-self: flex-start;
+		justify-content: flex-start;
 	}
 
 	&.is-vertically-aligned-center {
-		align-self: center;
+		justify-content: center;
 	}
 
 	&.is-vertically-aligned-bottom {
-		align-self: flex-end;
+		justify-content: flex-end;
 	}
 
 	&.is-vertically-aligned-top,
