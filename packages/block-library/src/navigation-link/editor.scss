@@ -132,9 +132,3 @@
 	border-radius: $radius-block-ui;
 	color: var(--wp-admin-theme-color);
 }
-
-.wp-block-navigation:not(.has-text-color)
-.wp-block-navigation-link__content
-.wp-block-navigation-link__label {
-	color: var(--global--color-primary);
-}
