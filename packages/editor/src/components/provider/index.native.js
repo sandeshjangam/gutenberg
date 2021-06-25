@@ -14,6 +14,7 @@ import RNReactNativeGutenbergBridge, {
 	subscribeMediaAppend,
 	subscribeReplaceBlock,
 	subscribeUpdateEditorSettings,
+	subscribeUpdateRawEditorSettings,
 	subscribeUpdateCapabilities,
 	subscribeShowNotice,
 } from '@wordpress/react-native-bridge';
@@ -78,9 +79,14 @@ class NativeEditorProvider extends Component {
 				maxSize: 1,
 			}
 		);
+		this.parseAndUpdateEditorSettings = this.parseAndUpdateEditorSettings.bind(
+			this
+		);
 	}
 
 	componentDidMount() {
+		this.parseAndUpdateEditorSettings( this.props );
+
 		const { capabilities, updateSettings } = this.props;
 
 		updateSettings( {
@@ -139,6 +145,10 @@ class NativeEditorProvider extends Component {
 			}
 		);
 
+		this.subscriptionParentUpdateRawEditorSettings = subscribeUpdateRawEditorSettings(
+			this.parseAndUpdateEditorSettings
+		);
+
 		this.subscriptionParentUpdateCapabilities = subscribeUpdateCapabilities(
 			( payload ) => {
 				this.updateCapabilitiesAction( payload );
@@ -180,6 +190,8 @@ class NativeEditorProvider extends Component {
 		if ( this.subscriptionParentUpdateEditorSettings ) {
 			this.subscriptionParentUpdateEditorSettings.remove();
 		}
+
+		this.subscriptionParentUpdateRawEditorSettings?.remove();
 
 		if ( this.subscriptionParentUpdateCapabilities ) {
 			this.subscriptionParentUpdateCapabilities.remove();
@@ -273,6 +285,30 @@ class NativeEditorProvider extends Component {
 
 	updateCapabilitiesAction( capabilities ) {
 		this.props.updateSettings( capabilities );
+	}
+
+	parseAndUpdateEditorSettings( { rawEditorSettings } ) {
+		const { updateSettings } = this.props;
+
+		let parsedEditorSettings;
+
+		try {
+			parsedEditorSettings = JSON.parse( rawEditorSettings );
+		} catch ( error ) {
+			// eslint-disable-next-line no-console
+			console.log(
+				`Error parsing editor settings: ${ rawEditorSettings }`
+			);
+			// eslint-disable-next-line no-console
+			console.log( error );
+		}
+
+		if ( parsedEditorSettings ) {
+			/* TODO: bring in other settings here? */
+			const { __experimentalGalleryRefactor } = parsedEditorSettings;
+
+			updateSettings( { __experimentalGalleryRefactor } );
+		}
 	}
 
 	render() {
