@@ -9,7 +9,7 @@ import {
 const SETTINGS_DEFAULTS = {
 	...SETTINGS,
 	// FOR TESTING ONLY - Later, this will come from a REST API
-	__experimentalGalleryRefactor: true,
+	//__experimentalGalleryRefactor: true,
 	alignWide: true,
 };
 
