@@ -9,13 +9,12 @@ import { LayoutAnimation, TouchableHighlight } from 'react-native';
 import { useEffect, useState, useCallback } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
-import { BottomSheet, BottomSheetConsumer } from '@wordpress/components';
+import { BottomSheet, BottomSheetConsumer, SearchControl } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
 import InserterSearchResults from './search-results';
-import InserterSearchForm from './search-form';
 import { store as blockEditorStore } from '../../store';
 import InserterTabs from './tabs';
 import styles from './style.scss';
@@ -175,7 +174,7 @@ function InserterMenu( {
 			header={
 				<>
 					{ showSearchForm && (
-						<InserterSearchForm
+						<SearchControl
 							onChange={ onChangeSearch }
 							value={ filterValue }
 						/>
