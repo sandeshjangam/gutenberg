@@ -9,7 +9,11 @@ import { LayoutAnimation, TouchableHighlight } from 'react-native';
 import { useEffect, useState, useCallback } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
-import { BottomSheet, BottomSheetConsumer, SearchControl } from '@wordpress/components';
+import {
+	BottomSheet,
+	BottomSheetConsumer,
+	SearchControl,
+} from '@wordpress/components';
 
 /**
  * Internal dependencies
