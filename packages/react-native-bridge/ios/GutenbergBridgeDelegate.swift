@@ -233,6 +233,12 @@ public protocol GutenbergBridgeDelegate: class {
     func gutenbergDidRequestMediaFilesUploadCancelDialog(_ mediaFiles: [[String: Any]])
 
     func gutenbergDidRequestMediaFilesSaveCancelDialog(_ mediaFiles: [[String: Any]])
+
+    /// Tells the delegate that the editor requested the block type impression counts
+    func gutenbergDidRequestBlockTypeImpressions() -> NSDictionary
+
+    /// Tells the delegate the the editor requested setting the impression count for a block type
+    func gutenbergDidRequestSetBlockTypeImpressions(_ name: String, count: Int)
 }
 
 // MARK: - Optional GutenbergBridgeDelegate methods
