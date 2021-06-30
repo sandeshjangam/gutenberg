@@ -11,7 +11,9 @@ import androidx.core.util.Consumer;
 
 import com.facebook.react.ReactApplication;
 import com.BV.LinearGradient.LinearGradientPackage;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.facebook.react.bridge.ReadableArray;
@@ -238,6 +240,17 @@ public class MainApplication extends Application implements ReactApplication, Gu
             @Override
             public void gutenbergDidSendButtonPressedAction(String buttonType) {
 
+            }
+
+            @Override
+            public void requestBlockTypeImpressions(BlockTypeImpressionsCallback blockTypeImpressionsCallback) {
+                WritableMap impressions = Arguments.createMap();
+                blockTypeImpressionsCallback.onRequestBlockTypeImpressions(impressions);
+            }
+
+            @Override
+            public void setBlockTypeImpressionCount(String name, Integer count) {
+                Log.d("BlockTypeImpressions", String.format("Gutenberg requested setting \"%s\" block type impression count to %d.", name, count));
             }
 
         }, isDarkMode());

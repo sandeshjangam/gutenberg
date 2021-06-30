@@ -95,6 +95,7 @@ public class WPAndroidGlueCode {
     private ReplaceUnsupportedBlockCallback mReplaceUnsupportedBlockCallback;
     private OnMediaFilesCollectionBasedBlockEditorListener mOnMediaFilesCollectionBasedBlockEditorListener;
     private OnFocalPointPickerTooltipShownEventListener mOnFocalPointPickerTooltipShownListener;
+    private OnBlockTypeImpressionsEventListener mOnBlockTypeImpressionsEventListener;
     private boolean mIsEditorMounted;
 
     private String mContentHtml = "";
@@ -210,6 +211,11 @@ public class WPAndroidGlueCode {
         void onContentInfoFailed();
         void onEditorNotReady();
         void onContentInfoReceived(HashMap<String, Object> contentInfo);
+    }
+
+    public interface OnBlockTypeImpressionsEventListener {
+        void onSetBlockTypeImpressionCount(String name, Integer count);
+        ReadableMap onRequestBlockTypeImpressions();
     }
 
     public void mediaSelectionCancelled() {
@@ -484,6 +490,17 @@ public class WPAndroidGlueCode {
                 boolean tooltipShown = mOnFocalPointPickerTooltipShownListener.onRequestFocalPointPickerTooltipShown();
                 focalPointPickerTooltipShownCallback.onRequestFocalPointPickerTooltipShown(tooltipShown);
             }
+
+            @Override
+            public void requestBlockTypeImpressions(BlockTypeImpressionsCallback blockTypeImpressionsCallback) {
+                ReadableMap impressions = mOnBlockTypeImpressionsEventListener.onRequestBlockTypeImpressions();
+                blockTypeImpressionsCallback.onRequestBlockTypeImpressions(impressions);
+            }
+
+            @Override
+            public void setBlockTypeImpressionCount(String name, Integer count) {
+                mOnBlockTypeImpressionsEventListener.onSetBlockTypeImpressionCount(name, count);
+            }
         }, mIsDarkMode);
 
         return Arrays.asList(
@@ -561,6 +578,7 @@ public class WPAndroidGlueCode {
                                   ShowSuggestionsUtil showSuggestionsUtil,
                                   OnMediaFilesCollectionBasedBlockEditorListener onMediaFilesCollectionBasedBlockEditorListener,
                                   OnFocalPointPickerTooltipShownEventListener onFocalPointPickerTooltipListener,
+                                  OnBlockTypeImpressionsEventListener onBlockTypeImpressionsEventListener,
                                   boolean isDarkMode) {
         MutableContextWrapper contextWrapper = (MutableContextWrapper) mReactRootView.getContext();
         contextWrapper.setBaseContext(viewGroup.getContext());
@@ -579,6 +597,7 @@ public class WPAndroidGlueCode {
         mShowSuggestionsUtil = showSuggestionsUtil;
         mOnMediaFilesCollectionBasedBlockEditorListener = onMediaFilesCollectionBasedBlockEditorListener;
         mOnFocalPointPickerTooltipShownListener = onFocalPointPickerTooltipListener;
+        mOnBlockTypeImpressionsEventListener = onBlockTypeImpressionsEventListener;
 
         sAddCookiesInterceptor.setOnAuthHeaderRequestedListener(onAuthHeaderRequestedListener);
 
