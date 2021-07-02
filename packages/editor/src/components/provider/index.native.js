@@ -35,6 +35,7 @@ import {
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { getGlobalStyles } from '@wordpress/components';
+import { NEW_BLOCK_TYPES } from '@wordpress/block-library';
 
 const postTypeEntities = [
 	{ name: 'post', baseURL: '/wp/v2/posts' },
@@ -155,7 +156,7 @@ class NativeEditorProvider extends Component {
 		// Request current block impressions from native app
 		requestBlockTypeImpressions( ( impressions ) => {
 			updateSettings( { impressions } );
-		} );
+		}, NEW_BLOCK_TYPES );
 	}
 
 	componentWillUnmount() {
