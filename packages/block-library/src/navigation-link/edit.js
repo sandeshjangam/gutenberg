@@ -238,6 +238,50 @@ const useIsInvalidLink = ( kind, type, id ) => {
 	return isInvalid;
 };
 
+const useMissingText = ( type, isInvalid ) => {
+	let missingText = '';
+
+	switch ( type ) {
+		case 'post':
+			/* translators: label for missing post in navigation link block */
+			missingText = __( 'Select a post' );
+			break;
+		case 'page':
+			/* translators: label for missing page in navigation link block */
+			missingText = __( 'Select a page' );
+			break;
+		case 'category':
+			/* translators: label for missing category in navigation link block */
+			missingText = __( 'Select a category' );
+			break;
+		case 'tag':
+			/* translators: label for missing tag in navigation link block */
+			missingText = __( 'Select a tag' );
+			break;
+		default:
+			/* translators: label for missing values in navigation link block */
+			missingText = __( 'Add a link' );
+	}
+
+	return (
+		<>
+			<span>{ missingText }</span>
+			{ isInvalid && (
+				<span className="wp-block-navigation-link__invalid-item">
+					{ ' ' }
+					(
+					{
+						__(
+							'Invalid'
+						) /* translators: Whether or not the navigation link is invalid. */
+					}
+					)
+				</span>
+			) }
+		</>
+	);
+};
+
 export default function NavigationLinkEdit( {
 	attributes,
 	isSelected,
@@ -457,28 +501,7 @@ export default function NavigationLinkEdit( {
 		'wp-block-navigation-link__placeholder': ! url || isInvalid,
 	} );
 
-	let missingText = '';
-	switch ( type ) {
-		case 'post':
-			/* translators: label for missing post in navigation link block */
-			missingText = __( 'Select a post' );
-			break;
-		case 'page':
-			/* translators: label for missing page in navigation link block */
-			missingText = __( 'Select a page' );
-			break;
-		case 'category':
-			/* translators: label for missing category in navigation link block */
-			missingText = __( 'Select a category' );
-			break;
-		case 'tag':
-			/* translators: label for missing tag in navigation link block */
-			missingText = __( 'Select a tag' );
-			break;
-		default:
-			/* translators: label for missing values in navigation link block */
-			missingText = __( 'Add a link' );
-	}
+	const missingText = useMissingText( type, isInvalid );
 
 	return (
 		<Fragment>
@@ -551,12 +574,6 @@ export default function NavigationLinkEdit( {
 								} }
 							/>
 							{ missingText }
-							{ isInvalid && (
-								<span className="wp-block-navigation-link__invalid-item">
-									{ ' ' }
-									({ __( 'Invalid' ) })
-								</span>
-							) }
 						</div>
 					) : (
 						<RichText
