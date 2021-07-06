@@ -119,4 +119,8 @@ module.exports = {
 	ripple: {
 		backgroundColor: 'white',
 	},
+	spacing: {
+		marginLeft: 6,
+		marginRight: 6,
+	},
 };
